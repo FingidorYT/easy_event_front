@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="my_primary">#5E35B1</color>
+    <color name="my_secondary">#673AB7</color>
+
+    <color name="morado_osc">#5922CA</color>
+    <color name="morado_nor">#5B2FB1</color>
+    <color name="morado_cla">#7048BF</color>
+    <color name="morado_claro">#824FDC</color>
+
+    <color name="blanco">#FFFFFF</color>
+
+</resources>

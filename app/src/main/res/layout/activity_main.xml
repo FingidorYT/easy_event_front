@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg3"
+    tools:context=".MainActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.7"
+        android:background="@color/my_primary" >
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="248dp"
+        android:background="@drawable/logo2"
+        android:orientation="vertical"
+        android:padding="28dp"
+        android:layout_marginTop="50dp"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/firstCardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:cardCornerRadius="50dp"
+        android:layout_marginBottom="-25dp">
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="550dp"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:padding="40dp">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bienvenido"
+                android:textColor="@color/my_primary"
+                android:textSize="40sp"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="30dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:alpha="8.7"
+                android:text="Correo Electronico"
+                android:textStyle="bold"
+                android:textSize="20sp"/>
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="10dp" />
+
+            <EditText
+                android:id="@+id/username"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/edittext_borde"
+                android:drawableEnd="@drawable/done_icon"
+                android:inputType="textEmailAddress" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="20dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:alpha="8.7"
+                android:text="Contraseña"
+                android:textStyle="bold"
+                android:textSize="20sp"/>
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="10dp" />
+
+            <EditText
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/edittext_borde"
+                android:inputType="textPassword"
+                android:drawableEnd="@drawable/done_icon"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <CheckBox
+                    android:layout_width="400dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:alpha="8.7"
+                    android:text="Recordar Usuario/Contraseña"
+                    android:textSize="15sp"
+                    android:button="@drawable/checkbox_border"/>
+
+
+            </RelativeLayout>
+
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/boton_redondo"
+                android:gravity="center"
+                android:onClick="login"
+                android:text="Iniciar Sesión"
+                android:textColor="@android:color/white"
+                android:textSize="18sp" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="30dp" />
+
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left">
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_gravity="right"
+                    android:alpha="8.7"
+                    android:text="No tienes cuenta aún? Registrate"
+                    android:textSize="16sp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="20dp"/>
+
+                <Button
+                    android:id="@+id/button2"
+                    android:layout_width="74dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/boton_redondo"
+                    android:drawableEnd="@drawable/arrow"
+                    android:gravity="center"
+                    android:onClick="Reg"
+                    android:layout_marginLeft="260dp"/>
+
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+
+
+    </androidx.cardview.widget.CardView>
+
+
+
+</RelativeLayout>
+
