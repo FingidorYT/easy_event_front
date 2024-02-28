@@ -10,8 +10,9 @@ public class Producto {
     private Integer cantidad_inventario;
     private Long empresa_id;
     private Long categoria_id;
+    private String foto;
 
-    public Producto(long id, Integer codigo, Long precio, String nombre_producto, Integer cantidad_disponible, Integer cantidad_inventario, Long empresa_id, Long categoria_id) {
+    public Producto(long id, Integer codigo, Long precio, String nombre_producto, Integer cantidad_disponible, Integer cantidad_inventario, Long empresa_id, Long categoria_id, String foto) {
         this.id = id;
         this.codigo = codigo;
         this.precio = precio;
@@ -20,6 +21,7 @@ public class Producto {
         this.cantidad_inventario = cantidad_inventario;
         this.empresa_id = empresa_id;
         this.categoria_id = categoria_id;
+        this.foto = foto;
     }
 
     public long getId() {
@@ -86,6 +88,14 @@ public class Producto {
         this.categoria_id = categoria_id;
     }
 
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
+    }
+
     @Override
     public String toString() {
         return "Producto{" +
@@ -97,6 +107,7 @@ public class Producto {
                 ", cantidad_inventario=" + cantidad_inventario +
                 ", empresa_id=" + empresa_id +
                 ", categoria_id=" + categoria_id +
+                ", foto='" + foto + '\'' +
                 '}';
     }
 }

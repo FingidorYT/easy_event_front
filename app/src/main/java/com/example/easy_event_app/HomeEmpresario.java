@@ -15,6 +15,8 @@ public class HomeEmpresario extends AppCompatActivity {
 
     //declaramos las 4 vistas
     ProductosEmpresario productosEmpresario = new ProductosEmpresario();
+
+    AlquilerEmpresarioFragment alquilerEmpresarioFragment = new AlquilerEmpresarioFragment();
     HomeEmpresarioFragment HomeEmpresarioFragment = new HomeEmpresarioFragment();
 
     private Fragment currentFragment;
@@ -74,7 +76,7 @@ public class HomeEmpresario extends AppCompatActivity {
                 loadFragment(productosEmpresario);
                 return true;
             } else if (item.getItemId() == R.id.thirdFragament) {
-                loadFragment(productosEmpresario);
+                loadFragment(alquilerEmpresarioFragment);
                 return true;
             } else if (item.getItemId() == R.id.fourthFragament) {
                 loadFragment(productosEmpresario);

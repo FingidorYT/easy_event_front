@@ -1,12 +1,29 @@
 package com.example.easy_event_app;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.easy_event_app.adapter.ProductoAdapter;
+import com.example.easy_event_app.model.Producto;
+import com.example.easy_event_app.model.ProductoRespuesta;
+import com.example.easy_event_app.network.ProductoAPICliente;
+import com.example.easy_event_app.network.ProductoAPIService;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +40,11 @@ public class ProductosEmpresario extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private ProductoAPIService servicios;
+    private ProductoAdapter productoAdapter;
+    private List<Producto> productosLista;
+    private RecyclerView productoRecyclerView;
+    private FloatingActionButton addProducto;
 
     public ProductosEmpresario() {
         // Required empty public constructor
@@ -46,19 +68,63 @@ public class ProductosEmpresario extends Fragment {
         return fragment;
     }
 
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        servicios = ProductoAPICliente.getProductoService();
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+        servicios.productos(Datainfo.resultLogin.getToken_type() + " " + Datainfo.resultLogin.getAccess_token()).enqueue(new Callback<ProductoRespuesta>() {
+            @Override
+            public void onResponse(Call<ProductoRespuesta> call, Response<ProductoRespuesta> response) {
+                if (response.isSuccessful()) {
+                    List<Producto> todosLosProductos = response.body().getProducto();
+                    productosLista = todosLosProductos;
+                    cargarListaProductos(productosLista);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ProductoRespuesta> call, Throwable t) {
+                Log.e("Error", t.getMessage());
+            }
+        });
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_productos_empresario, container, false);
+        View view = inflater.inflate(R.layout.fragment_productos_empresario, container, false);
+
+        addProducto = view.findViewById((R.id.addProducto));
+        addProducto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent add = new Intent(getActivity(), AddProducto.class);
+                startActivity(add);
+            }
+        });
+
+        productoRecyclerView = view.findViewById(R.id.lista);
+        productoRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+
+        productoAdapter = new ProductoAdapter(productosLista, getActivity());
+        productoRecyclerView.setAdapter(productoAdapter);
+        return view;
+    }
+
+    private void cargarListaProductos(List<Producto> data) {
+        productoAdapter = new ProductoAdapter(productosLista, getActivity());
+        productoRecyclerView.setAdapter(productoAdapter);
     }
 }

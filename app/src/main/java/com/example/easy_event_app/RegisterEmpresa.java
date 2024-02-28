@@ -1,40 +1,68 @@
 package com.example.easy_event_app;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.loader.content.CursorLoader;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
+import android.net.Uri;
 
 import com.example.easy_event_app.model.RespuestaRegister;
 import com.example.easy_event_app.network.RegisterEmpAPICliente;
 import com.example.easy_event_app.network.RegisterEmpAPIService;
 
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class RegisterEmpresa extends AppCompatActivity {
 
+    ImageView imgGallery;
     EditText nitEmp;
     EditText direEmp;
     EditText nomEmp;
     EditText telEmp;
     EditText corrEmp;
+    private Uri selectedImageUri;
 
     private RegisterEmpAPIService service;
+
+    private final int GALLERY_REQ_CODE = 1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_empresa);
 
+        imgGallery = findViewById(R.id.imgGallery);
         nitEmp = findViewById(R.id.nitEmp);
         direEmp = findViewById(R.id.direEmp);
         nomEmp = findViewById(R.id.nomEmp);
@@ -51,7 +79,62 @@ public class RegisterEmpresa extends AppCompatActivity {
         });
 
         service = RegisterEmpAPICliente.getRegisterEmpService();
+
+        imgGallery.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                /*Intent iGallery = new Intent(Intent.ACTION_PICK);
+                iGallery.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);*/
+                Intent i = new Intent();
+                i.setType("image/*");
+                i.setAction(Intent.ACTION_GET_CONTENT);
+                someActivityResultLauncher.launch(i);
+                //startActivityForResult(iGallery, GALLERY_REQ_CODE);
+            }
+        });
     }
+
+    ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+
+                    if (result.getResultCode()
+                            == Activity.RESULT_OK) {
+                        Intent data = result.getData();
+                        // do your operation from here....
+                        if (data != null
+                                && data.getData() != null) {
+                            selectedImageUri = data.getData();
+                            Bitmap selectedImageBitmap=null;
+                            try {
+                                selectedImageBitmap
+                                        = MediaStore.Images.Media.getBitmap(
+                                        RegisterEmpresa.this.getContentResolver(),
+                                        selectedImageUri);
+                            }
+                            catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            imgGallery.setImageBitmap(
+                                    selectedImageBitmap);
+                        }
+                    }
+                }
+            });
+/*
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode==RESULT_OK){
+            if(requestCode==GALLERY_REQ_CODE){
+
+                imgGallery.setImageURI(data.getData());
+
+            }
+        }
+    }*/
 
     public void showPrivacyPolicyDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -99,7 +182,7 @@ public class RegisterEmpresa extends AppCompatActivity {
         builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                performRegistration();
+                performRegistration(selectedImageUri);
             }
         });
 
@@ -121,8 +204,49 @@ public class RegisterEmpresa extends AppCompatActivity {
     public void registerEmpresa(View view) {
         showPrivacyPolicyDialog();
     }
+    /*private void uploadFile(Uri fileUri) {
+        // create upload service client
+        ImageEmpService service =
+                ServiceGenerator.createService(ImageEmpService.class);
 
-    private void performRegistration() {
+        // https://github.com/iPaulPro/aFileChooser/blob/master/aFileChooser/src/com/ipaulpro/afilechooser/utils/FileUtils.java
+        // use the FileUtils to get the actual file by uri
+        File file = FileUtils.getFile(this, fileUri);
+
+        // create RequestBody instance from file
+        RequestBody requestFile =
+                RequestBody.create(
+                        MediaType.parse(getContentResolver().getType(fileUri)),
+                        file
+                );
+
+        // MultipartBody.Part is used to send also the actual file name
+        MultipartBody.Part body =
+                MultipartBody.Part.createFormData("picture", file.getName(), requestFile);
+
+        // add another part within the multipart request
+        String descriptionString = "hello, this is description speaking";
+        RequestBody description =
+                RequestBody.create(
+                        okhttp3.MultipartBody.FORM, descriptionString);
+
+        // finally, execute the request
+        Call<ResponseBody> call = service.upload(body);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call,
+                                   Response<ResponseBody> response) {
+                Log.i("Upload", "success");
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.e("Upload error:", t.getMessage());
+            }
+        });
+    }*/
+
+    private void performRegistration(Uri selectedImageUri) {
         String cedula = getIntent().getStringExtra("cedula");
         String nombre = getIntent().getStringExtra("nombre");
         String apellido = getIntent().getStringExtra("apellido");
@@ -137,7 +261,39 @@ public class RegisterEmpresa extends AppCompatActivity {
         String telEmpresa = telEmp.getText().toString();
         String corrEmpresa = corrEmp.getText().toString();
 
-        service.registerEmpresario(cedula, nombre, apellido, correo, fechaNacimiento, telefono, contraseña, nitEmpresa, direEmpresa, nomEmpresa, telEmpresa, corrEmpresa)
+        // Convertir URI a File
+        File file = null;
+        try {
+            InputStream inputStream = getContentResolver().openInputStream(selectedImageUri);
+
+            // Crear un archivo temporal para guardar la imagen
+            file = createTempFileFromInputStream(inputStream);
+        } catch (Exception ex) {
+
+        }
+
+
+        //File file = new File(selectedImageUri.getPath());
+        RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), file);
+
+        // Crear MultipartBody.Part desde el objeto RequestBody
+        MultipartBody.Part foto = MultipartBody.Part.createFormData("foto", file.getName(), requestFile);
+
+        RequestBody cedula_rb = RequestBody.create(MediaType.parse("text/plain"),cedula);
+        RequestBody nombre_rb = RequestBody.create(MediaType.parse("text/plain"),nombre);
+        RequestBody apellido_rb = RequestBody.create(MediaType.parse("text/plain"),apellido);
+        RequestBody correo_rb = RequestBody.create(MediaType.parse("text/plain"),correo);
+        RequestBody fechaNacimiento_rb = RequestBody.create(MediaType.parse("text/plain"),fechaNacimiento);
+        RequestBody telefono_rb = RequestBody.create(MediaType.parse("text/plain"),telefono);
+        RequestBody contraseña_rb = RequestBody.create(MediaType.parse("text/plain"),contraseña);
+        RequestBody nitEmpresa_rb = RequestBody.create(MediaType.parse("text/plain"),nitEmpresa);
+        RequestBody direEmpresa_rb = RequestBody.create(MediaType.parse("text/plain"),direEmpresa);
+        RequestBody nomEmpresa_rb = RequestBody.create(MediaType.parse("text/plain"),nomEmpresa);
+        RequestBody telEmpresa_rb = RequestBody.create(MediaType.parse("text/plain"),telEmpresa);
+        RequestBody corrEmpresa_rb = RequestBody.create(MediaType.parse("text/plain"),corrEmpresa);
+
+
+        service.registerEmpresario(cedula_rb, nombre_rb, apellido_rb, correo_rb, fechaNacimiento_rb, telefono_rb, contraseña_rb, nitEmpresa_rb, direEmpresa_rb, nomEmpresa_rb, telEmpresa_rb, corrEmpresa_rb, foto)
                 .enqueue(new Callback<RespuestaRegister>() {
                     @Override
                     public void onResponse(Call<RespuestaRegister> call, Response<RespuestaRegister> response) {
@@ -152,9 +308,26 @@ public class RegisterEmpresa extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<RespuestaRegister> call, Throwable t) {
-                        Toast.makeText(RegisterEmpresa.this, "Error en el registro: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(RegisterEmpresa.this, "Error en el regitro: " + t.getMessage(), Toast.LENGTH_LONG).show();
                         t.printStackTrace();
                     }
                 });
+
     }
+
+    private File createTempFileFromInputStream(InputStream inputStream) throws IOException {
+        File tempFile = File.createTempFile("tempImage", null);
+        tempFile.deleteOnExit();
+        FileOutputStream out = new FileOutputStream(tempFile);
+        byte[] buffer = new byte[1024];
+        int bytesRead;
+        while ((bytesRead = inputStream.read(buffer)) != -1) {
+            out.write(buffer, 0, bytesRead);
+        }
+        inputStream.close();
+        out.close();
+        return tempFile;
+    }
+
+
 }

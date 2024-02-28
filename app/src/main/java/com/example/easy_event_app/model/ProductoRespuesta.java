@@ -6,11 +6,11 @@ public class ProductoRespuesta {
 
     private List<Producto> Producto;
 
-    public List<com.example.easy_event_app.model.Producto> getProducto() {
+    public List<Producto> getProducto() {
         return Producto;
     }
 
-    public void setProducto(List<com.example.easy_event_app.model.Producto> producto) {
+    public void setProducto(List<Producto> producto) {
         Producto = producto;
     }
 

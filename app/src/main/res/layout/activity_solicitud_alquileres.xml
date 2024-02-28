@@ -1,45 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProductosEmpresario">
-
-    <!-- TODO: Update blank fragment layout -->
-
+    tools:context=".SolicitudAlquileres">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="100dp"
-        android:layout_marginBottom="80dp"
-        android:orientation="vertical">
+        android:layout_marginTop="100dp">
+
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/lista"
+            android:id="@+id/listaAlquiler"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginEnd="1dp"
+            android:paddingBottom="80dp"
             android:clipToPadding="false"
             android:orientation="vertical"
             android:paddingTop="60dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/addProducto"
+        <TextView
+            android:id="@+id/nada"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:src="@drawable/ic_add"
-            android:layout_marginBottom="16dp"
-            android:backgroundTint="@color/my_primary"
-            app:layout_constraintBottom_toBottomOf="@+id/lista"
-            app:layout_constraintEnd_toEndOf="parent"></com.google.android.material.floatingactionbutton.FloatingActionButton>
+            android:text="PRUEBA"
+            android:textColor="@color/black"
+            android:textSize="50dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.441">
+
+        </TextView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -52,19 +53,16 @@
         <TextView
             android:id="@+id/firstFragment"
             android:layout_width="0dp"
-            android:layout_height="112dp"
-            android:layout_marginStart="50dp"
-            android:layout_marginEnd="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="45dp"
+            android:layout_marginTop="37dp"
             android:fontFamily="sans-serif-black"
             android:gravity="left"
-            android:text="Productos
-            Empresario"
+            android:text="Alquileres"
             android:textColor="@color/white"
             android:textSize="40sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
