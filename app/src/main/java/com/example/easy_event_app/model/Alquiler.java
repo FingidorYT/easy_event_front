@@ -10,15 +10,15 @@ public class Alquiler {
     private String apellido;
     private String metodo_pago;
     private String lugar_entrega;
-    private Date fecha_alquiler;
-    private Date fecha_devolucion;
+    private String fecha_alquiler;
+    private String fecha_devolucion;
     private String estado_pedido;
     private String estado_secuencia;
     private Long precio_envio;
     private Long costos_adicionales;
     private Long precio_alquiler;
 
-    public Alquiler(long id, Long user_id, String nombre, String apellido, String metodo_pago, String lugar_entrega, Date fecha_alquiler, Date fecha_devolucion, String estado_pedido, String estado_secuencia, Long precio_envio, Long costos_adicionales, Long precio_alquiler) {
+    public Alquiler(long id, Long user_id, String nombre, String apellido, String metodo_pago, String lugar_entrega, String fecha_alquiler, String fecha_devolucion, String estado_pedido, String estado_secuencia, Long precio_envio, Long costos_adicionales, Long precio_alquiler) {
         this.id = id;
         this.user_id = user_id;
         this.nombre = nombre;
@@ -82,19 +82,19 @@ public class Alquiler {
         this.lugar_entrega = lugar_entrega;
     }
 
-    public Date getFecha_alquiler() {
+    public String getFecha_alquiler() {
         return fecha_alquiler;
     }
 
-    public void setFecha_alquiler(Date fecha_alquiler) {
+    public void setFecha_alquiler(String fecha_alquiler) {
         this.fecha_alquiler = fecha_alquiler;
     }
 
-    public Date getFecha_devolucion() {
+    public String getFecha_devolucion() {
         return fecha_devolucion;
     }
 
-    public void setFecha_devolucion(Date fecha_devolucion) {
+    public void setFecha_devolucion(String fecha_devolucion) {
         this.fecha_devolucion = fecha_devolucion;
     }
 

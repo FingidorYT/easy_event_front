@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -49,7 +50,6 @@ public class AddProducto extends AppCompatActivity {
     EditText nombrePr;
     EditText cantidadPr;
     EditText txtDescripcion;
-
     Spinner categoriaPr;
     Button crearPr;
     private List<Categoria> categoriaLista;
@@ -116,6 +116,14 @@ public class AddProducto extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 performRegistration(selectedImageUri);
+            }
+        });
+
+        ImageButton volverButton = findViewById(R.id.volverButton);
+        volverButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
 

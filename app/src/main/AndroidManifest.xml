@@ -19,6 +19,15 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".AutoLogin"
+            android:exported="false" />
+        <activity
+            android:name=".InfoAlquiler"
+            android:exported="false" />
+        <activity
+            android:name=".EditProducto"
+            android:exported="false" />
+        <activity
             android:name=".EntregadosAlquileres"
             android:exported="false" />
         <activity

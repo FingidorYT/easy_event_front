@@ -8,21 +8,38 @@ import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.easy_event_app.model.Alquiler;
+import com.example.easy_event_app.model.Categoria;
+import com.example.easy_event_app.model.CategoriaRespuesta;
+import com.example.easy_event_app.model.ContadorAlquileres;
+import com.example.easy_event_app.model.Producto;
+import com.example.easy_event_app.network.AlquilerApiCliente;
+import com.example.easy_event_app.network.AlquilerApiService;
+
 import org.w3c.dom.Text;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link HomeEmpresarioFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HomeEmpresarioFragment extends Fragment {
+public class HomeEmpresarioFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -37,13 +54,14 @@ public class HomeEmpresarioFragment extends Fragment {
     private CardView alquilerS;
     private CardView alquilerE;
     private TextView solicitudAlq;
+    private TextView entregadoAlq;
     private TextView dirEMP;
     private TextView nomEmp;
     private TextView telEmp;
-
+    private SwipeRefreshLayout refresh;
     private TextView corrEmp;
     private TextView estadoEmp;
-
+    private AlquilerApiService service;
 
 
     public HomeEmpresarioFragment() {
@@ -72,6 +90,7 @@ public class HomeEmpresarioFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -83,6 +102,14 @@ public class HomeEmpresarioFragment extends Fragment {
 
     @Override
     public void onStart() {
+
+        cargarDatos();
+        super.onStart();
+
+
+    }
+    public void cargarDatos(){
+
         nombre_empresa = getActivity().findViewById(R.id.nombre_empresa);
         nombre_empresa.setText(Datainfo.resultLogin.getEmpresa().getNombre_empresa());
 
@@ -106,19 +133,27 @@ public class HomeEmpresarioFragment extends Fragment {
             }
         });
 
-        /*nitEmp = getActivity().findViewById(R.id.nitEmp);
-        nitEmp.setText(Datainfo.resultLogin.getEmpresa().getNit_empresa().toString());
-        dirEMP = getActivity().findViewById(R.id.direEmp);
-        dirEMP.setText(Datainfo.resultLogin.getEmpresa().getDireccion_empresa());
-        nombre_empresa = getActivity().findViewById(R.id.nomEmp);
-        nombre_empresa.setText(Datainfo.resultLogin.getEmpresa().getNombre_empresa());
-        telEmp = getActivity().findViewById(R.id.telEmp);
-        telEmp.setText(Datainfo.resultLogin.getEmpresa().getTelefono_empresa().toString());
-        corrEmp = getActivity().findViewById(R.id.corrEmp);
-        corrEmp.setText(Datainfo.resultLogin.getEmpresa().getEmail_empresa());
-        estadoEmp = getActivity().findViewById(R.id.estadoEmp);
-        estadoEmp.setText(Datainfo.resultLogin.getEmpresa().getEstado());*/
-        super.onStart();
+        solicitudAlq = getActivity().findViewById(R.id.solicitudAlq);
+        entregadoAlq = getActivity().findViewById(R.id.entregadoAlq);
+
+        service.contaralquiler(Datainfo.resultLogin.getToken_type() + " " + Datainfo.resultLogin.getAccess_token())
+                .enqueue(new Callback<ContadorAlquileres>() {
+            @Override
+            public void onResponse(Call<ContadorAlquileres> call, Response<ContadorAlquileres> response) {
+                if (response.isSuccessful()) {
+                    ContadorAlquileres alquiler = response.body();
+
+                    solicitudAlq.setText(""+alquiler.getAlquileres_solicitados());
+                    entregadoAlq.setText(""+alquiler.getAlquileres_entregados());
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ContadorAlquileres> call, Throwable t) {
+                Log.e("Error", t.getMessage());
+            }
+        });
 
 
     }
@@ -128,7 +163,12 @@ public class HomeEmpresarioFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
+        service = AlquilerApiCliente.getAlquilerService();
         View view = inflater.inflate(R.layout.fragment_home_empresario, container, false);
+
+        refresh = view.findViewById(R.id.refresh);
+        refresh.setOnRefreshListener(this);
+
 
         CardView palquiler = view.findViewById(R.id.alquiler1);
 
@@ -138,10 +178,19 @@ public class HomeEmpresarioFragment extends Fragment {
 
             }
         });
-
-
         return view;
     }
 
 
+    @Override
+    public void onRefresh() {
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                refresh.setRefreshing(false);
+                cargarDatos();
+
+            }
+        }, 100);
+    }
 }

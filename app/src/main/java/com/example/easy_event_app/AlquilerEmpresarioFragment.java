@@ -47,6 +47,7 @@ public class AlquilerEmpresarioFragment extends Fragment {
     private RecyclerView alquilerRecyclerView;
 
 
+
     public AlquilerEmpresarioFragment() {
         // Required empty public constructor
     }
@@ -122,5 +123,7 @@ public class AlquilerEmpresarioFragment extends Fragment {
 
         return view;
     }
+
+
 
 }

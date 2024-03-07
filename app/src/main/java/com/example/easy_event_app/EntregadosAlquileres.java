@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
 import com.example.easy_event_app.adapter.AlquilerAdapter;
 import com.example.easy_event_app.model.Alquiler;
@@ -25,6 +27,8 @@ public class EntregadosAlquileres extends AppCompatActivity {
     private AlquilerAdapter alquilerAdapter;
     private List<Alquiler> alquilereslista;
     private RecyclerView alquilerRecyclerView;
+    private TextView nada;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +44,7 @@ public class EntregadosAlquileres extends AppCompatActivity {
     @Override
     protected void onStart() {
 
+        nada = findViewById(R.id.nada);
 
         String estado = "entregado";
         servicio.alquiler_filtrado(Datainfo.resultLogin.getToken_type() + " " + Datainfo.resultLogin.getAccess_token(), estado).enqueue(new Callback<AlquilerRespuesta>() {
@@ -65,6 +70,9 @@ public class EntregadosAlquileres extends AppCompatActivity {
 
 
     private void cargarListaAlquileres(List<Alquiler> data) {
+        if (data.size() > 0 ){
+            nada.setVisibility(View.GONE);
+        }
         alquilerAdapter = new AlquilerAdapter(data, this    );
         alquilerRecyclerView.setAdapter(alquilerAdapter);
     }

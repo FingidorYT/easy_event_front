@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.easy_event_app.EditUser;
 import com.example.easy_event_app.R;
 import com.example.easy_event_app.model.Alquiler;
+import com.example.easy_event_app.InfoAlquiler;
 
 import java.util.List;
 
@@ -52,7 +53,8 @@ public class AlquilerAdapter extends RecyclerView.Adapter<AlquilerAdapter.ViewHo
             public void onClick(View view) {
                 // Obtener el contexto desde el CardView y abrir la nueva actividad
                 Context context = view.getContext();
-                Intent intent = new Intent(context, EditUser.class); // Reemplaza "NuevaActividad" con el nombre de tu actividad
+                Intent intent = new Intent(context, InfoAlquiler.class); // Reemplaza "NuevaActividad" con el nombre de tu actividad
+                intent.putExtra("alquiler_id", alquiler.getId());
                 context.startActivity(intent);
             }
         });

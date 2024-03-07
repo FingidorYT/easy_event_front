@@ -6,7 +6,10 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,7 +33,7 @@ import retrofit2.Response;
  * Use the {@link ProductosEmpresario#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ProductosEmpresario extends Fragment {
+public class ProductosEmpresario extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -44,6 +47,7 @@ public class ProductosEmpresario extends Fragment {
     private ProductoAdapter productoAdapter;
     private List<Producto> productosLista;
     private RecyclerView productoRecyclerView;
+    private SwipeRefreshLayout refresh;
     private FloatingActionButton addProducto;
 
     public ProductosEmpresario() {
@@ -80,23 +84,11 @@ public class ProductosEmpresario extends Fragment {
         }
     }
     @Override
-    public void onResume() {
-        super.onResume();
-        servicios.productos(Datainfo.resultLogin.getToken_type() + " " + Datainfo.resultLogin.getAccess_token()).enqueue(new Callback<ProductoRespuesta>() {
-            @Override
-            public void onResponse(Call<ProductoRespuesta> call, Response<ProductoRespuesta> response) {
-                if (response.isSuccessful()) {
-                    List<Producto> todosLosProductos = response.body().getProducto();
-                    productosLista = todosLosProductos;
-                    cargarListaProductos(productosLista);
-                }
-            }
+    public void onStart() {
+        super.onStart();
 
-            @Override
-            public void onFailure(Call<ProductoRespuesta> call, Throwable t) {
-                Log.e("Error", t.getMessage());
-            }
-        });
+        cargarProductos();
+
     }
 
 
@@ -106,6 +98,8 @@ public class ProductosEmpresario extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_productos_empresario, container, false);
 
+        refresh = view.findViewById(R.id.refresh);
+        refresh.setOnRefreshListener(this);
         addProducto = view.findViewById((R.id.addProducto));
         addProducto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,8 +117,40 @@ public class ProductosEmpresario extends Fragment {
         return view;
     }
 
+    private void cargarProductos(){
+        servicios.productos(Datainfo.resultLogin.getToken_type() + " " + Datainfo.resultLogin.getAccess_token()).enqueue(new Callback<ProductoRespuesta>() {
+            @Override
+            public void onResponse(Call<ProductoRespuesta> call, Response<ProductoRespuesta> response) {
+                if (response.isSuccessful()) {
+                    List<Producto> todosLosProductos = response.body().getProducto();
+                    productosLista = todosLosProductos;
+                    cargarListaProductos(productosLista);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ProductoRespuesta> call, Throwable t) {
+                Log.e("Error", t.getMessage());
+            }
+        });
+    }
+
     private void cargarListaProductos(List<Producto> data) {
         productoAdapter = new ProductoAdapter(productosLista, getActivity());
         productoRecyclerView.setAdapter(productoAdapter);
+    }
+
+
+    @Override
+    public void onRefresh() {
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                refresh.setRefreshing(false);
+                cargarProductos();
+
+            }
+        }, 100);
+
     }
 }

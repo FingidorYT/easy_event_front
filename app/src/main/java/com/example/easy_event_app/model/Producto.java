@@ -6,17 +6,20 @@ public class Producto {
     private Integer codigo;
     private Long precio;
     private String nombre_producto;
+    private String descripcion;
+
     private Integer cantidad_disponible;
     private Integer cantidad_inventario;
     private Long empresa_id;
     private Long categoria_id;
     private String foto;
 
-    public Producto(long id, Integer codigo, Long precio, String nombre_producto, Integer cantidad_disponible, Integer cantidad_inventario, Long empresa_id, Long categoria_id, String foto) {
+    public Producto(long id, Integer codigo, Long precio, String nombre_producto, String descripcion, Integer cantidad_disponible, Integer cantidad_inventario, Long empresa_id, Long categoria_id, String foto) {
         this.id = id;
         this.codigo = codigo;
         this.precio = precio;
         this.nombre_producto = nombre_producto;
+        this.descripcion = descripcion;
         this.cantidad_disponible = cantidad_disponible;
         this.cantidad_inventario = cantidad_inventario;
         this.empresa_id = empresa_id;
@@ -54,6 +57,14 @@ public class Producto {
 
     public void setNombre_producto(String nombre_producto) {
         this.nombre_producto = nombre_producto;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion_producto) {
+        this.descripcion = descripcion_producto;
     }
 
     public Integer getCantidad_disponible() {
@@ -103,6 +114,7 @@ public class Producto {
                 ", codigo=" + codigo +
                 ", precio=" + precio +
                 ", nombre_producto='" + nombre_producto + '\'' +
+                ", descripcion='" + descripcion + '\'' +
                 ", cantidad_disponible=" + cantidad_disponible +
                 ", cantidad_inventario=" + cantidad_inventario +
                 ", empresa_id=" + empresa_id +
