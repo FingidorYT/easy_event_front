@@ -11,7 +11,6 @@ import android.widget.TextView;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.easy_event_app.EditUser;
 import com.example.easy_event_app.R;
 import com.example.easy_event_app.model.Alquiler;
 import com.example.easy_event_app.InfoAlquiler;

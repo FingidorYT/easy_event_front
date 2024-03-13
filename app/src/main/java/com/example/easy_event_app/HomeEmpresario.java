@@ -18,6 +18,7 @@ public class HomeEmpresario extends AppCompatActivity {
 
     AlquilerEmpresarioFragment alquilerEmpresarioFragment = new AlquilerEmpresarioFragment();
     HomeEmpresarioFragment HomeEmpresarioFragment = new HomeEmpresarioFragment();
+    AjustesEmpresarioFragment ajustesEmpresarioFragment = new AjustesEmpresarioFragment();
 
     private Fragment currentFragment;
 
@@ -79,7 +80,7 @@ public class HomeEmpresario extends AppCompatActivity {
                 loadFragment(alquilerEmpresarioFragment);
                 return true;
             } else if (item.getItemId() == R.id.fourthFragament) {
-                loadFragment(productosEmpresario);
+                loadFragment(ajustesEmpresarioFragment);
                 return true;
             }
 

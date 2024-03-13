@@ -6,15 +6,19 @@ import androidx.cardview.widget.CardView;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.easy_event_app.model.RespuestaLogin;
@@ -34,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
 
     private LoginAPIService service;
 
+    private boolean isValidate=true;
+
     public void login (View view) {
         username = findViewById(R.id.username);
         password = findViewById(R.id.password);
@@ -49,12 +55,16 @@ public class MainActivity extends AppCompatActivity {
                     //Toast.makeText(MainActivity.this, "r"+response ,Toast.LENGTH_LONG).show();
                     if(Datainfo.resultLogin.getUser().getRol_id() == 2){
                         Intent logeo = new Intent(MainActivity.this, HomeEmpresario.class);
+                        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+                        prefs.edit().putString("authorization",Datainfo.resultLogin.getToken_type() + " " + Datainfo.resultLogin.getAccess_token()).commit();
                         startActivity(logeo);
                         return;
                     }
 
                     if(Datainfo.resultLogin.getUser().getRol_id() == 3){
                         Intent logeo = new Intent(MainActivity.this, Home.class);
+                        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+                        prefs.edit().putString("authorization",Datainfo.resultLogin.getToken_type() + " " + Datainfo.resultLogin.getAccess_token()).commit();
                         startActivity(logeo);
                         return;
                     }
@@ -82,6 +92,52 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        service = LoginAPICliente.getLoginService();
+
+        String authorization;
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+        authorization = prefs.getString("authorization", null);
+        if (authorization != null){
+            service.autologin(authorization).enqueue(new Callback<RespuestaLogin>() {
+                @Override
+                public void onResponse(Call<RespuestaLogin> call, Response<RespuestaLogin> response) {
+                    RelativeLayout rl = findViewById(R.id.ventanaInicial);
+                    if (response.isSuccessful()){
+                        String [] values = authorization.split(" ");
+                        Datainfo.resultLogin=response.body();
+                        Datainfo.resultLogin.setToken_type(values[0]);
+                        Datainfo.resultLogin.setAccess_token(values[1]);
+
+                        if(Datainfo.resultLogin.getUser().getRol_id() == 2){
+                            Intent logeo = new Intent(MainActivity.this, HomeEmpresario.class);
+                            startActivity(logeo);
+                            return;
+                        } else if(Datainfo.resultLogin.getUser().getRol_id() == 3){
+                            Intent logeo = new Intent(MainActivity.this, Home.class);
+                            startActivity(logeo);
+                            return;
+                        }
+
+                    } else {
+                        Log.i("paso", "if");
+                        rl.setVisibility(View.VISIBLE);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<RespuestaLogin> call, Throwable t) {
+                    Log.i("paso", "if2");
+                    RelativeLayout rl = findViewById(R.id.ventanaInicial);
+                    rl.setVisibility(View.VISIBLE);
+                }
+            });
+
+
+
+        } else {
+            RelativeLayout rl = findViewById(R.id.ventanaInicial);
+            rl.setVisibility(View.VISIBLE);
+        }
 
         if (Environment.isExternalStorageManager()) {
 
@@ -92,7 +148,6 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }
 
-        service = LoginAPICliente.getLoginService();
 
         if (Environment.isExternalStorageManager()) {
 
@@ -112,6 +167,14 @@ public class MainActivity extends AppCompatActivity {
         firstCardView.setVisibility(View.VISIBLE);
         firstCardView.startAnimation(slideUpAnimation);
 
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        RelativeLayout rl = findViewById(R.id.ventanaInicial);
+        rl.setVisibility(View.GONE);
 
     }
 }

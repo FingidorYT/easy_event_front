@@ -37,7 +37,7 @@
             android:name=".AddProducto"
             android:exported="false" />
         <activity
-            android:name=".EditUser"
+            android:name=".EditUserEmpresario"
             android:exported="false" />
         <activity
             android:name=".prueba"

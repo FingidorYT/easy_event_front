@@ -13,7 +13,7 @@ public class InfoAlquiler {
     private String foto;
     private String metodo_pago;
     private String fecha_alquiler;
-    private BigInteger precio_total;
+    private BigInteger precio_alquiler;
     private List<Producto> productos;
 
     public List<Producto> getProducto_alquiler() {
@@ -24,7 +24,7 @@ public class InfoAlquiler {
         productos = producto;
     }
 
-    public InfoAlquiler(String nombre, String apellido, BigInteger telefono, String lugar_entrega, String foto, String metodo_pago, String fecha_alquiler, BigInteger precio_total) {
+    public InfoAlquiler(String nombre, String apellido, BigInteger telefono, String lugar_entrega, String foto, String metodo_pago, String fecha_alquiler, BigInteger precio_alquiler) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.telefono = telefono;
@@ -32,7 +32,7 @@ public class InfoAlquiler {
         this.foto = foto;
         this.metodo_pago = metodo_pago;
         this.fecha_alquiler = fecha_alquiler;
-        this.precio_total = precio_total;
+        this.precio_alquiler = precio_alquiler;
     }
 
     public String getNombre() {
@@ -91,12 +91,12 @@ public class InfoAlquiler {
         this.fecha_alquiler = fecha_alquiler;
     }
 
-    public BigInteger getPrecio_total() {
-        return precio_total;
+    public BigInteger getPrecio_alquiler() {
+        return precio_alquiler;
     }
 
-    public void setPrecio_total(BigInteger precio_total) {
-        this.precio_total = precio_total;
+    public void setPrecio_alquiler(BigInteger precio_alquiler) {
+        this.precio_alquiler = precio_alquiler;
     }
 
     @Override
@@ -109,7 +109,7 @@ public class InfoAlquiler {
                 ", foto='" + foto + '\'' +
                 ", metodo_pago='" + metodo_pago + '\'' +
                 ", fecha_alquiler=" + fecha_alquiler +
-                ", precio_total=" + precio_total +
+                ", precio_total=" + precio_alquiler +
                 '}';
     }
 }

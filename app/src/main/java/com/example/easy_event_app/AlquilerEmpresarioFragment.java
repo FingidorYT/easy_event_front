@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.easy_event_app.adapter.AlquilerAdapter;
 import com.example.easy_event_app.adapter.ProductoAdapter;
@@ -45,6 +46,8 @@ public class AlquilerEmpresarioFragment extends Fragment {
     private AlquilerAdapter alquilerAdapter;
     private List<Alquiler> alquilereslista;
     private RecyclerView alquilerRecyclerView;
+    private TextView nada;
+
 
 
 
@@ -103,6 +106,9 @@ public class AlquilerEmpresarioFragment extends Fragment {
 
     private void cargarListaAlquileres(List<Alquiler> data) {
         Log.i("alquileres0", data.toString());
+        if (data.size() <= 0 ){
+            nada.setVisibility(View.VISIBLE);
+        }
         alquilerAdapter = new AlquilerAdapter(data, getActivity());
         alquilerRecyclerView.setAdapter(alquilerAdapter);
     }

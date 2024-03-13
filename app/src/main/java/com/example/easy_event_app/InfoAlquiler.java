@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,7 +20,10 @@ import com.example.easy_event_app.network.AlquilerApiCliente;
 import com.example.easy_event_app.network.AlquilerApiService;
 import com.squareup.picasso.Picasso;
 
+import java.math.BigInteger;
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -31,6 +36,7 @@ public class InfoAlquiler extends AppCompatActivity {
     private ProductoAdapter productoAdapter;
     private List<Producto> productosLista;
     private Long alquilerId;
+    private NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("es", "CO"));
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +45,14 @@ public class InfoAlquiler extends AppCompatActivity {
         servicio = AlquilerApiCliente.getAlquilerService();
         listaProductos = findViewById(R.id.listaProductos);
         listaProductos.setLayoutManager(new LinearLayoutManager(this));
+
+        ImageButton volverButton = findViewById(R.id.volverButton);
+        volverButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     @Override
@@ -70,7 +84,14 @@ public class InfoAlquiler extends AppCompatActivity {
                     txtEntrega.setText(alquiler.getLugar_entrega());
                     txtMetodo.setText(alquiler.getMetodo_pago());
                     txtFecha.setText(alquiler.getFecha_alquiler());
-                    txtPrecio.setText(String.valueOf(alquiler.getPrecio_total()));
+
+                    BigInteger precioProducto = alquiler.getPrecio_alquiler();
+                    format.setMaximumFractionDigits(0); // Configurar para no mostrar decimale
+                    String precioFormateado = format.format(precioProducto);
+                    String precioConMoneda = precioFormateado + " COP";
+                    txtPrecio.setText(precioConMoneda);
+
+
 
                     productosLista = todoslosproductos;
                     cargarListaProductos(productosLista);

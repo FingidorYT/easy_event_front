@@ -188,12 +188,19 @@ public class AddProducto extends AppCompatActivity {
 
         }
 
+        MultipartBody.Part foto;
 
-        //File file = new File(selectedImageUri.getPath());
-        RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), file);
+        if (file != null){
+            //File file = new File(selectedImageUri.getPath());
+            RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), file);
 
-        // Crear MultipartBody.Part desde el objeto RequestBody
-        MultipartBody.Part foto = MultipartBody.Part.createFormData("foto", file.getName(), requestFile);
+            // Crear MultipartBody.Part desde el objeto RequestBody
+            foto = MultipartBody.Part.createFormData("foto", file.getName(), requestFile);
+
+        }else{
+            foto = null;
+        }
+
 
         RequestBody precio = RequestBody.create(MediaType.parse("text/plain"),preciopr);
         RequestBody nombre_producto = RequestBody.create(MediaType.parse("text/plain"),nombrepr);

@@ -43,7 +43,10 @@
             android:layout_marginBottom="16dp"
             android:backgroundTint="@color/my_primary"
             app:layout_constraintBottom_toBottomOf="@+id/lista"
-            app:layout_constraintEnd_toEndOf="parent"></com.google.android.material.floatingactionbutton.FloatingActionButton>
+            app:layout_constraintEnd_toEndOf="parent">
+
+
+        </com.google.android.material.floatingactionbutton.FloatingActionButton>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -52,6 +55,8 @@
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:background="@drawable/banner_redondo">
+
+
 
         <TextView
             android:id="@+id/firstFragment"

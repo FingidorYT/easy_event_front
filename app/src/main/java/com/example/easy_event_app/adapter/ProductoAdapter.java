@@ -11,13 +11,14 @@ import android.widget.TextView;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.easy_event_app.EditUser;
 import com.example.easy_event_app.InfoProductoEmpresario;
 import com.example.easy_event_app.R;
 import com.example.easy_event_app.model.Producto;
 import com.squareup.picasso.Picasso;
 
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.ViewHolder>{
 
@@ -26,6 +27,7 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.ViewHo
     private Context context;
 
     private OnItemClickListener onItemClickListener; // Nueva línea
+    private NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("es", "CO"));
 
     public ProductoAdapter(List<Producto> productos, Context context) {
         this.productos = productos;
@@ -45,7 +47,15 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.ViewHo
         holder.CantidadDisponible.setText(""+producto.getCantidad_disponible());
         String ruta = "http://10.201.194.46:8000/storage/"+producto.getFoto();
         Picasso.with(context).load(ruta).into(holder.FotoProducto);
-        holder.txtPrecio.setText(String.valueOf(producto.getPrecio()));
+        
+
+        double precioProducto = producto.getPrecio();
+        format.setMaximumFractionDigits(0); // Configurar para no mostrar decimale
+        String precioFormateado = format.format(precioProducto);
+
+        String precioConMoneda = precioFormateado + " COP";
+
+        holder.txtPrecio.setText(precioConMoneda);
 
         // Establecer un OnClickListener para el CardView
         holder.cardView.setOnClickListener(new View.OnClickListener() {
