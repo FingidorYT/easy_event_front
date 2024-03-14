@@ -107,6 +107,7 @@ public class AlquilerEmpresarioFragment extends Fragment {
     private void cargarListaAlquileres(List<Alquiler> data) {
         Log.i("alquileres0", data.toString());
         if (data.size() <= 0 ){
+            nada = getActivity().findViewById(R.id.nada);
             nada.setVisibility(View.VISIBLE);
         }
         alquilerAdapter = new AlquilerAdapter(data, getActivity());

@@ -7,14 +7,16 @@ public class Producto {
     private Long precio;
     private String nombre_producto;
     private String descripcion;
-
     private Integer cantidad_disponible;
     private Integer cantidad_inventario;
     private Long empresa_id;
     private Long categoria_id;
     private String foto;
 
-    public Producto(long id, Integer codigo, Long precio, String nombre_producto, String descripcion, Integer cantidad_disponible, Integer cantidad_inventario, Long empresa_id, Long categoria_id, String foto) {
+    private long cantidad_recibida;
+    private long precio_producto_total;
+
+    public Producto(long id, Integer codigo, Long precio, String nombre_producto, String descripcion, Integer cantidad_disponible, Integer cantidad_inventario, Long empresa_id, Long categoria_id, String foto, long cantidad_recibida, long precio_producto_total) {
         this.id = id;
         this.codigo = codigo;
         this.precio = precio;
@@ -25,6 +27,8 @@ public class Producto {
         this.empresa_id = empresa_id;
         this.categoria_id = categoria_id;
         this.foto = foto;
+        this.cantidad_recibida = cantidad_recibida;
+        this.precio_producto_total = precio_producto_total;
     }
 
     public long getId() {
@@ -33,6 +37,23 @@ public class Producto {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+
+    public long getCantidad_recibida() {
+        return cantidad_recibida;
+    }
+
+    public void setCantidad_recibida(long cantidad_recibida) {
+        this.cantidad_recibida = cantidad_recibida;
+    }
+
+    public long getPrecio_producto_total() {
+        return precio_producto_total;
+    }
+
+    public void setPrecio_producto_total(long precio_producto_total) {
+        this.precio_producto_total = precio_producto_total;
     }
 
     public Integer getCodigo() {
@@ -120,6 +141,8 @@ public class Producto {
                 ", empresa_id=" + empresa_id +
                 ", categoria_id=" + categoria_id +
                 ", foto='" + foto + '\'' +
+                ", cantidad_recibida=" + cantidad_recibida +
+                ", precio_producto_total=" + precio_producto_total +
                 '}';
     }
 }

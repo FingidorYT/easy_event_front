@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="140dp"
+                android:layout_margin="10dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="5dp"
+                android:id="@+id/cardView2">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageView"
+                        android:layout_width="130dp"
+                        android:layout_height="140dp"
+                        android:scaleType="centerCrop"
+                        android:background="#D1C4E9"
+                        android:clipToOutline="true"/>
+
+                    <LinearLayout
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginLeft="20dp">
+
+                        <TextView
+                            android:id="@+id/txtNombreProducto"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="..."
+                            android:textSize="25dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:text="Cantidad:"
+                                android:textSize="15dp"
+                                android:gravity="center"/>
+
+                            <TextView
+                                android:id="@+id/txtCantidad"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:text="..."
+                                android:textSize="20dp"
+                                android:layout_marginLeft="10dp"
+                                android:paddingTop="10dp"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_marginLeft="40dp"
+                        android:layout_marginTop="20dp">
+
+
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+
+                <TextView
+                    android:id="@+id/txtPrecio"
+                    android:layout_width="180dp"
+                    android:gravity="right"
+                    android:layout_height="wrap_content"
+                    android:text="..."
+                    android:textSize="20dp"
+                    android:layout_marginLeft="200dp"
+                    android:layout_marginTop="100dp"
+                    />
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

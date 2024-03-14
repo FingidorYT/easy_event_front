@@ -247,11 +247,35 @@
 
         </androidx.cardview.widget.CardView>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/listaProductos"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/btnRechazar"
+                android:layout_width="150dp"
+                android:text="RECHAZAR"
+                android:backgroundTint="@color/red_claro"
+                android:layout_height="wrap_content">
+
+            </Button>
+            <Button
+                android:id="@+id/btnAceptar"
+                android:layout_width="150dp"
+                android:text="ACEPTAR"
+                android:layout_marginLeft="50dp"
+                android:layout_height="wrap_content">
+
+            </Button>
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/listaProductos"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:nestedScrollingEnabled="false">
 
         </androidx.recyclerview.widget.RecyclerView>

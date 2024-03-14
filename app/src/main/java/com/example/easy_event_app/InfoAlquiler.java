@@ -4,9 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -36,6 +38,7 @@ public class InfoAlquiler extends AppCompatActivity {
     private ProductoAdapter productoAdapter;
     private List<Producto> productosLista;
     private Long alquilerId;
+    private Button btnRechazar, btnAceptar;
     private NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("es", "CO"));
 
     @Override
@@ -44,6 +47,8 @@ public class InfoAlquiler extends AppCompatActivity {
         setContentView(R.layout.activity_info_alquiler);
         servicio = AlquilerApiCliente.getAlquilerService();
         listaProductos = findViewById(R.id.listaProductos);
+        btnRechazar = findViewById(R.id.btnRechazar);
+        btnAceptar = findViewById(R.id.btnAceptar);
         listaProductos.setLayoutManager(new LinearLayoutManager(this));
 
         ImageButton volverButton = findViewById(R.id.volverButton);
@@ -53,6 +58,36 @@ public class InfoAlquiler extends AppCompatActivity {
                 finish();
             }
         });
+
+        btnRechazar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String respuesta = "rechazar";
+                servicio.alquiler_responder(Datainfo.resultLogin.getToken_type() + " " + Datainfo.resultLogin.getAccess_token(),alquilerId, respuesta).enqueue(new Callback<com.example.easy_event_app.model.InfoAlquiler>() {
+                    @Override
+                    public void onResponse(Call<com.example.easy_event_app.model.InfoAlquiler> call, Response<com.example.easy_event_app.model.InfoAlquiler> response) {
+                        if (response.isSuccessful()) {
+                            finish();
+                        }
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<com.example.easy_event_app.model.InfoAlquiler> call, Throwable t) {
+
+                    }
+                });
+
+            }
+        });
+
+        btnAceptar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
     }
 
     @Override

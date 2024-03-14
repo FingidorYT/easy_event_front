@@ -11,6 +11,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface AlquilerApiService {
@@ -21,6 +22,11 @@ public interface AlquilerApiService {
     @GET("alquiler/{id}")
     Call<InfoAlquiler> alquiler_id (@Header("Authorization")String authorization,
                                     @Path("id") long id);
+    @FormUrlEncoded
+    @PUT("alquiler/{id}")
+    Call<InfoAlquiler> alquiler_responder (@Header("Authorization")String authorization,
+                                    @Path("id") long id,
+                                    @Field("respuesta") String respuesta);
 
     @FormUrlEncoded
     @POST("alquiler/filtrar")
