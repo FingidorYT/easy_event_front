@@ -94,6 +94,45 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         service = LoginAPICliente.getLoginService();
 
+
+
+        if (Environment.isExternalStorageManager()) {
+
+        } else {
+
+            Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+            intent.setData(Uri.parse("package:" + getPackageName()));
+            startActivity(intent);
+        }
+
+
+        if (Environment.isExternalStorageManager()) {
+
+        } else {
+
+            Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+            intent.setData(Uri.parse("package:" + getPackageName()));
+            startActivity(intent);
+        }
+
+        service = LoginAPICliente.getLoginService();
+        firstCardView = findViewById(R.id.firstCardView);
+
+        Animation slideUpAnimation = new TranslateAnimation(0, 0, 500, 0);
+        slideUpAnimation.setDuration(2000);
+
+        firstCardView.setVisibility(View.VISIBLE);
+        firstCardView.startAnimation(slideUpAnimation);
+
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        RelativeLayout rl = findViewById(R.id.ventanaInicial);
+        rl.setVisibility(View.GONE);
+
         String authorization;
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
         authorization = prefs.getString("authorization", null);
@@ -135,46 +174,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         } else {
-            RelativeLayout rl = findViewById(R.id.ventanaInicial);
             rl.setVisibility(View.VISIBLE);
         }
-
-        if (Environment.isExternalStorageManager()) {
-
-        } else {
-
-            Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
-            intent.setData(Uri.parse("package:" + getPackageName()));
-            startActivity(intent);
-        }
-
-
-        if (Environment.isExternalStorageManager()) {
-
-        } else {
-
-            Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
-            intent.setData(Uri.parse("package:" + getPackageName()));
-            startActivity(intent);
-        }
-
-        service = LoginAPICliente.getLoginService();
-        firstCardView = findViewById(R.id.firstCardView);
-
-        Animation slideUpAnimation = new TranslateAnimation(0, 0, 500, 0);
-        slideUpAnimation.setDuration(2000);
-
-        firstCardView.setVisibility(View.VISIBLE);
-        firstCardView.startAnimation(slideUpAnimation);
-
-
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        RelativeLayout rl = findViewById(R.id.ventanaInicial);
-        rl.setVisibility(View.GONE);
 
     }
 }

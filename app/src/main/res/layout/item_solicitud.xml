@@ -38,7 +38,8 @@
                         android:clipToOutline="true"/>
 
                     <LinearLayout
-                        android:layout_width="150dp"
+                        android:layout_width="match_parent"
+                        android:paddingRight="5dp"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:layout_marginLeft="20dp">
@@ -46,14 +47,15 @@
                         <TextView
                             android:id="@+id/txtNombreProducto"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="30dp"
                             android:layout_marginTop="10dp"
                             android:text="..."
                             android:textSize="25dp" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="50dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_height="30dp"
                             android:orientation="horizontal">
 
                             <TextView
@@ -69,8 +71,7 @@
                                 android:layout_height="match_parent"
                                 android:text="..."
                                 android:textSize="20dp"
-                                android:layout_marginLeft="10dp"
-                                android:paddingTop="10dp"/>
+                                android:layout_marginLeft="10dp"/>
 
                         </LinearLayout>
 
@@ -99,7 +100,7 @@
                     android:text="..."
                     android:textSize="20dp"
                     android:layout_marginLeft="200dp"
-                    android:layout_marginTop="100dp"
+                    android:layout_marginTop="105dp"
                     />
 
             </androidx.cardview.widget.CardView>

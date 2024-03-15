@@ -15,7 +15,9 @@ import com.example.easy_event_app.R;
 import com.example.easy_event_app.model.Alquiler;
 import com.example.easy_event_app.InfoAlquiler;
 
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 public class AlquilerAdapter extends RecyclerView.Adapter<AlquilerAdapter.ViewHolder>{
 
@@ -23,6 +25,8 @@ public class AlquilerAdapter extends RecyclerView.Adapter<AlquilerAdapter.ViewHo
 
     private List<Alquiler> alquileres;
     private Context context;
+    private NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("es", "CO"));
+
 
     private AlquilerAdapter.OnItemClickListener onItemClickListener; // Nueva línea
 
@@ -42,9 +46,15 @@ public class AlquilerAdapter extends RecyclerView.Adapter<AlquilerAdapter.ViewHo
     public void onBindViewHolder(AlquilerAdapter.ViewHolder holder, int position) {
         Alquiler alquiler = this.alquileres.get(position);
         holder.txtNombreUser.setText(alquiler.getNombre());
+        holder.txtFechaEntrega.setText(alquiler.getFecha_devolucion());
         holder.txtFecha.setText(String.valueOf(alquiler.getFecha_alquiler()));
         holder.txtEstado.setText(alquiler.getEstado_pedido());
-        holder.txtPrecio.setText(String.valueOf(alquiler.getPrecio_alquiler()));
+        double precioProducto = alquiler.getPrecio_alquiler();
+        format.setMaximumFractionDigits(0); // Configurar para no mostrar decimale
+        String precioFormateado = format.format(precioProducto);
+        String precioConMoneda = precioFormateado + " COP";
+        holder.txtPrecio.setText(precioConMoneda);
+
 
         // Establecer un OnClickListener para el CardView
         holder.cardView.setOnClickListener(new View.OnClickListener() {
@@ -77,12 +87,14 @@ public class AlquilerAdapter extends RecyclerView.Adapter<AlquilerAdapter.ViewHo
         TextView txtFecha;
         TextView txtEstado;
         TextView txtPrecio;
+        TextView txtFechaEntrega;
         TextView nada;
         CardView cardView;
 
         public ViewHolder(View itemView) {
             super(itemView);
             txtNombreUser = itemView.findViewById(R.id.txtNombreUser);
+            txtFechaEntrega = itemView.findViewById(R.id.txtFechaEntrega);
             txtFecha = itemView.findViewById(R.id.txtFecha);
             txtEstado = itemView.findViewById(R.id.txtEstado);
             txtPrecio = itemView.findViewById(R.id.txtPrecio);

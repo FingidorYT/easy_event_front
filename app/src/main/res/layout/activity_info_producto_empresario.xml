@@ -61,14 +61,16 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="140dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="Cantidad Disponible"
+                        android:gravity="center_vertical"
+                        android:text="Stock:"
                         android:textSize="15dp"
                         android:textStyle="bold"
                         android:layout_marginLeft="20dp">
@@ -77,8 +79,9 @@
 
                     <TextView
                         android:id="@+id/txtCantidad"
-                        android:layout_width="50dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
+                        android:layout_marginLeft="5dp"
                         android:text="..."
                         android:textSize="20dp"
                         android:textStyle="bold"
@@ -86,13 +89,32 @@
 
                     </TextView>
 
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
+
                     <TextView
-                        android:layout_width="70dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="Unidades"
+                        android:text="Descripcion:"
                         android:textSize="15dp"
-                        android:textStyle="bold">
+                        android:textStyle="bold"
+                        android:layout_marginLeft="20dp">
+
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/txtDescripcion"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:text="..."
+                        android:textSize="15dp">
 
                     </TextView>
 
@@ -100,15 +122,16 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginTop="80dp">
+                    android:layout_marginTop="70dp">
 
                     <TextView
-                        android:layout_width="200dp"
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="right"
                         android:layout_height="match_parent"
                         android:text="Valor por día C/u"
-                        android:textSize="20dp"
+                        android:textSize="15dp"
                         android:textStyle="bold"
                         android:gravity="center_vertical"
                         android:paddingLeft="20dp">
@@ -120,10 +143,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="right"
+                        android:paddingRight="20dp"
                         android:text="..."
-                        android:textSize="30dp"
-                        android:textStyle="bold"
-                        android:paddingRight="20dp">
+                        android:textSize="25dp"
+                        android:textStyle="bold">
 
                     </TextView>
 

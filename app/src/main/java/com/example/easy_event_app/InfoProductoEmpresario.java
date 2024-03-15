@@ -23,6 +23,9 @@ import com.example.easy_event_app.network.ProductoAPICliente;
 import com.example.easy_event_app.network.ProductoAPIService;
 import com.squareup.picasso.Picasso;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -33,6 +36,9 @@ public class InfoProductoEmpresario extends AppCompatActivity {
     Button eliminar;
     Button editar;
     long productoId;
+
+    private NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("es", "CO"));
+
 
 
     public void cargarpr() {
@@ -52,11 +58,20 @@ public class InfoProductoEmpresario extends AppCompatActivity {
                             TextView txtNombreProduc = findViewById(R.id.txtNombreProduc);
                             TextView txtPrecioProduc = findViewById(R.id.txtPrecioProduc);
                             TextView txtCantidad = findViewById(R.id.txtCantidad);
+                            TextView txtDescripcion = findViewById(R.id.txtDescripcion);
 
                             String ruta = "http://10.201.194.46:8000/storage/"+producto.getFoto();
                             Picasso.with(getApplicationContext()).load(ruta).into(imageView);
                             txtNombreProduc.setText(producto.getNombre_producto());
-                            txtPrecioProduc.setText(String.valueOf(producto.getPrecio()));
+
+                            txtDescripcion.setText(producto.getDescripcion());
+
+                            double precioProducto = producto.getPrecio();
+                            format.setMaximumFractionDigits(0); // Configurar para no mostrar decimale
+                            String precioFormateado = format.format(precioProducto);
+
+                            String precioConMoneda = precioFormateado + " COP";
+                            txtPrecioProduc.setText(precioConMoneda);
                             txtCantidad.setText(String.valueOf(producto.getCantidad_disponible()));
                         }
                     }
