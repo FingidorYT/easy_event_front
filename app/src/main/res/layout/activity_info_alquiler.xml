@@ -257,6 +257,11 @@
             </Button>
         </LinearLayout>
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:descendantFocusability="blocksDescendants">
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/listaProductos"
             android:layout_marginTop="10dp"
@@ -266,10 +271,27 @@
 
         </androidx.recyclerview.widget.RecyclerView>
 
+        </RelativeLayout>
+
+
 
     </LinearLayout>
 
     </ScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/editAlquiler"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="15dp"
+        android:backgroundTint="@color/my_primary"
+        android:src="@drawable/ic_edit"
+        app:tint="@null"
+        android:tint="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -303,5 +325,10 @@
             android:textSize="40sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

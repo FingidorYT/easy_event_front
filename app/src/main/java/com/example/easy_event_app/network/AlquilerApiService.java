@@ -4,8 +4,14 @@ import com.example.easy_event_app.model.InfoAlquiler;
 import com.example.easy_event_app.model.Alquiler;
 import com.example.easy_event_app.model.AlquilerRespuesta;
 import com.example.easy_event_app.model.ContadorAlquileres;
+import com.example.easy_event_app.model.Producto;
 
+import java.lang.reflect.Array;
+import java.util.List;
+
+import okhttp3.RequestBody;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -32,6 +38,11 @@ public interface AlquilerApiService {
     @POST("alquiler/filtrar")
     Call <AlquilerRespuesta> alquiler_filtrado (@Header("Authorization")String authorization,
                                                  @Field("estado") String estado);
+
+    @POST("alquiler/modificar/{id}")
+    Call <AlquilerRespuesta> alquiler_modificar (@Header("Authorization")String authorization,
+                                                 @Path("id") long id,
+                                                 @Body List<Producto> informacion);
 
     @GET("alquileres/contar")
     Call <ContadorAlquileres> contaralquiler (@Header("Authorization")String authorization);

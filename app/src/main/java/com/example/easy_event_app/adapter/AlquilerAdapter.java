@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.easy_event_app.R;
 import com.example.easy_event_app.model.Alquiler;
 import com.example.easy_event_app.InfoAlquiler;
+import com.example.easy_event_app.model.Producto;
 
 import java.text.NumberFormat;
 import java.util.List;
@@ -101,6 +102,8 @@ public class AlquilerAdapter extends RecyclerView.Adapter<AlquilerAdapter.ViewHo
             cardView = itemView.findViewById(R.id.cardView2); // Reemplaza con el ID de tu CardView
         }
     }
+
+
 
 
 }

@@ -5,15 +5,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.easy_event_app.adapter.AlquilerAdapter;
@@ -40,6 +44,7 @@ public class InfoAlquiler extends AppCompatActivity {
     private AlquilerApiService servicio;
     private RecyclerView listaProductos;
     private SolicitudAdapter solicitudAdapter;
+    private com.example.easy_event_app.model.InfoAlquiler alquiler;
     private List<Producto> productosLista;
     private Long alquilerId;
     private Button btnRechazar, btnAceptar;
@@ -67,13 +72,13 @@ public class InfoAlquiler extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(InfoAlquiler.this);
-                builder.setTitle("Eliminar producto");
+                builder.setTitle("Rechazar solicitud");
                 builder.setMessage(Html.fromHtml("Estas seguro que deseas rechazar la solicitud?, no podras recuperarla"));
                 builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        String respuesta = "rechazar";
+                        String respuesta = "SI";
                         servicio.alquiler_responder(Datainfo.resultLogin.getToken_type() + " " + Datainfo.resultLogin.getAccess_token(),alquilerId, respuesta).enqueue(new Callback<com.example.easy_event_app.model.InfoAlquiler>() {
                             @Override
                             public void onResponse(Call<com.example.easy_event_app.model.InfoAlquiler> call, Response<com.example.easy_event_app.model.InfoAlquiler> response) {
@@ -92,7 +97,7 @@ public class InfoAlquiler extends AppCompatActivity {
                     }
                 });
 
-                builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
@@ -109,12 +114,93 @@ public class InfoAlquiler extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                AlertDialog.Builder builder = new AlertDialog.Builder(InfoAlquiler.this);
+                builder.setTitle("Aceptar solicitud");
+                builder.setMessage(Html.fromHtml("Estas seguro que deseas aceptar la solicitud?, no podras modificarla luego"));
+                builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        String respuesta = "aceptar";
+
+                        if(alquiler.getLugar_entrega().equals("Recoger")) {
+
+                            servicio.alquiler_responder(Datainfo.resultLogin.getToken_type() + " " + Datainfo.resultLogin.getAccess_token(), alquilerId, respuesta).enqueue(new Callback<com.example.easy_event_app.model.InfoAlquiler>() {
+                                @Override
+                                public void onResponse(Call<com.example.easy_event_app.model.InfoAlquiler> call, Response<com.example.easy_event_app.model.InfoAlquiler> response) {
+                                    if (response.isSuccessful()) {
+                                        finish();
+                                    }
+
+                                }
+
+                                @Override
+                                public void onFailure(Call<com.example.easy_event_app.model.InfoAlquiler> call, Throwable t) {
+
+                                }
+                            });
+
+                        }else {
+
+                            showDialog();
+
+
+
+                        }
+
+                    }
+                });
+
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+
+                builder.show();
+
+
+
 
 
 
 
             }
         });
+
+    }
+
+    private void showDialog(){
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.bottom_sheet_layout);
+
+        TextView lugar_entrega = dialog.findViewById(R.id.lugar_Entrega);
+        EditText precio_envio = dialog.findViewById(R.id.precio_Envio);
+        Button cancelar = dialog.findViewById(R.id.cancelar);
+        Button aceptar = dialog.findViewById(R.id.aceptar);
+
+        lugar_entrega.setText(alquiler.getLugar_entrega());
+        cancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        aceptar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+
+            }
+        });
+
+
+
+
 
     }
 
@@ -127,9 +213,8 @@ public class InfoAlquiler extends AppCompatActivity {
             @Override
             public void onResponse(Call<com.example.easy_event_app.model.InfoAlquiler> call, Response<com.example.easy_event_app.model.InfoAlquiler> response) {
                 if (response.isSuccessful()) {
-                    com.example.easy_event_app.model.InfoAlquiler alquiler = response.body();
+                    alquiler = response.body();
                     List<Producto> todoslosproductos = response.body().getProducto_alquiler();
-
                     ImageView imageView = findViewById(R.id.fotoUser);
                     TextView txtNombre = findViewById(R.id.txtNombre);
                     TextView txtApellido = findViewById(R.id.txtApellido);
@@ -171,5 +256,14 @@ public class InfoAlquiler extends AppCompatActivity {
     private void cargarListaProductos(List<Producto> data) {
         solicitudAdapter = new SolicitudAdapter(productosLista, this);
         listaProductos.setAdapter(solicitudAdapter);
+
+
+        List<Producto> informacion = ((SolicitudAdapter) listaProductos.getAdapter()).getListaProductos();
+    }
+
+    private void pedirDomicilio(){
+
+
+
     }
 }

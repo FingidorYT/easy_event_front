@@ -47,6 +47,11 @@ public class SolicitudAdapter extends RecyclerView.Adapter<SolicitudAdapter.View
         return new SolicitudAdapter.ViewHolder(view);
     }
 
+    private void deleteItem(int pos) {
+        this.productos.remove(pos);
+        this.notifyDataSetChanged();
+    }
+
     @Override
     public void onBindViewHolder(SolicitudAdapter.ViewHolder holder, int position) {
         Producto producto = this.productos.get(position);
@@ -72,6 +77,10 @@ public class SolicitudAdapter extends RecyclerView.Adapter<SolicitudAdapter.View
             public void onClick(View view) {
 
                 Context context = view.getContext();
+                deleteItem(position);
+                Producto p = productos.get(position);
+                p.setCantidad_recibida(Integer.parseInt(holder.txtCantidad.getText().toString()));
+
                 //Intent intent = new Intent(context, );
                 //intent.putExtra("PRODUCTO_ID", producto.getId());
                 //context.startActivity(intent);
@@ -107,6 +116,10 @@ public class SolicitudAdapter extends RecyclerView.Adapter<SolicitudAdapter.View
 
             cardView = itemView.findViewById(R.id.cardView2); // Reemplaza con el ID de tu CardView
         }
+    }
+
+    public List<Producto> getListaProductos() {
+        return this.productos;
     }
 
 }
