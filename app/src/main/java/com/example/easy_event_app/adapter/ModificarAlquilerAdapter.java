@@ -1,7 +1,6 @@
 package com.example.easy_event_app.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +18,7 @@ import java.text.NumberFormat;
 import java.util.List;
 import java.util.Locale;
 
-public class SolicitudAdapter extends RecyclerView.Adapter<SolicitudAdapter.ViewHolder>{
+public class ModificarAlquilerAdapter extends RecyclerView.Adapter<ModificarAlquilerAdapter.ViewHolder> {
 
     private List<Producto> productos;
     private Context context;
@@ -31,7 +30,7 @@ public class SolicitudAdapter extends RecyclerView.Adapter<SolicitudAdapter.View
 
 
 
-    public SolicitudAdapter(List<Producto> productos, Context context) {
+    public ModificarAlquilerAdapter(List<Producto> productos, Context context) {
         this.productos = productos;
         this.context = context;
     }
@@ -42,9 +41,9 @@ public class SolicitudAdapter extends RecyclerView.Adapter<SolicitudAdapter.View
     }
 
     @Override
-    public SolicitudAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_solicitud, parent, false);
-        return new SolicitudAdapter.ViewHolder(view);
+    public ModificarAlquilerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.item_modificar_alquiler_adapter, parent, false);
+        return new ModificarAlquilerAdapter.ViewHolder(view);
     }
 
     private void deleteItem(int pos) {
@@ -53,7 +52,7 @@ public class SolicitudAdapter extends RecyclerView.Adapter<SolicitudAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(SolicitudAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(ModificarAlquilerAdapter.ViewHolder holder, int position) {
         Producto producto = this.productos.get(position);
         holder.txtNombreProducto.setText(producto.getNombre_producto());
         holder.txtPrecio.setText(String.valueOf(producto.getPrecio_producto_total()));

@@ -8,10 +8,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,6 +32,7 @@ import com.example.easy_event_app.model.AlquilerRespuesta;
 import com.example.easy_event_app.model.Producto;
 import com.example.easy_event_app.network.AlquilerApiCliente;
 import com.example.easy_event_app.network.AlquilerApiService;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.squareup.picasso.Picasso;
 
 import java.math.BigInteger;
@@ -47,6 +52,7 @@ public class InfoAlquiler extends AppCompatActivity {
     private com.example.easy_event_app.model.InfoAlquiler alquiler;
     private List<Producto> productosLista;
     private Long alquilerId;
+    private FloatingActionButton editAlquiler;
     private Button btnRechazar, btnAceptar;
     private NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("es", "CO"));
 
@@ -55,6 +61,7 @@ public class InfoAlquiler extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info_alquiler);
         servicio = AlquilerApiCliente.getAlquilerService();
+        editAlquiler = findViewById(R.id.editAlquiler);
         listaProductos = findViewById(R.id.listaProductos);
         btnRechazar = findViewById(R.id.btnRechazar);
         btnAceptar = findViewById(R.id.btnAceptar);
@@ -65,6 +72,15 @@ public class InfoAlquiler extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+
+        editAlquiler.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(InfoAlquiler.this, AlquilerModificar.class);
+                intent.putExtra("alquiler_id", alquilerId);
+                startActivity(intent);
             }
         });
 
@@ -185,7 +201,7 @@ public class InfoAlquiler extends AppCompatActivity {
         cancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                dialog.dismiss();
             }
         });
 
@@ -193,10 +209,36 @@ public class InfoAlquiler extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                String respuesta = "aceptar";
+
+                String precio = precio_envio.getText().toString();
+
+                servicio.alquiler_responder_envio(Datainfo.resultLogin.getToken_type() + " " + Datainfo.resultLogin.getAccess_token(), alquilerId, respuesta, precio).enqueue(new Callback<com.example.easy_event_app.model.InfoAlquiler>() {
+                    @Override
+                    public void onResponse(Call<com.example.easy_event_app.model.InfoAlquiler> call, Response<com.example.easy_event_app.model.InfoAlquiler> response) {
+                        if (response.isSuccessful()) {
+                            finish();
+                        }
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<com.example.easy_event_app.model.InfoAlquiler> call, Throwable t) {
+
+                    }
+                });
+
+
 
 
             }
         });
+
+        dialog.show();
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow().getAttributes().windowAnimations = R.style.DialoAnimation;
+        dialog.getWindow().setGravity(Gravity.BOTTOM);
 
 
 

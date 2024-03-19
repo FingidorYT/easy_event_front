@@ -35,6 +35,13 @@ public interface AlquilerApiService {
                                     @Field("respuesta") String respuesta);
 
     @FormUrlEncoded
+    @PUT("alquiler/{id}")
+    Call<InfoAlquiler> alquiler_responder_envio (@Header("Authorization")String authorization,
+                                           @Path("id") long id,
+                                           @Field("respuesta") String respuesta,
+                                           @Field("precio_envio") String precio);
+
+    @FormUrlEncoded
     @POST("alquiler/filtrar")
     Call <AlquilerRespuesta> alquiler_filtrado (@Header("Authorization")String authorization,
                                                  @Field("estado") String estado);
