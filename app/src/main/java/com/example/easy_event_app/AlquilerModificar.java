@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -31,6 +32,8 @@ public class AlquilerModificar extends AppCompatActivity {
 
     private AlquilerApiService servicio;
     private RecyclerView listaProductos;
+
+    Button modificar;
     private ModificarAlquilerAdapter modificarAlquilerAdapter;
     private com.example.easy_event_app.model.InfoAlquiler alquiler;
     private List<Producto> productosLista;
@@ -41,6 +44,16 @@ public class AlquilerModificar extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alquiler_modificar);
+
+        modificar = findViewById(R.id.modificar);
+
+        modificar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                List<Producto> productos= ((ModificarAlquilerAdapter) listaProductos.getAdapter()).getListaProductos();
+
+            }
+        });
 
         servicio = AlquilerApiCliente.getAlquilerService();
         listaProductos = findViewById(R.id.listaProductos);
@@ -70,6 +83,7 @@ public class AlquilerModificar extends AppCompatActivity {
             }
         });
     }
+
 
     private void cargarListaProductos(List<Producto> data) {
         modificarAlquilerAdapter = new ModificarAlquilerAdapter(productosLista, this);
