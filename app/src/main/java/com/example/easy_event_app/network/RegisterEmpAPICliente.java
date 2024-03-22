@@ -8,7 +8,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class RegisterEmpAPICliente {
 
-    private static final String URL = "http://10.201.194.46:8000/api/";
+    private static final String URL = "http://10.201.194.86:8000/api/";
 
     private static RegisterEmpAPIService instance;
 
